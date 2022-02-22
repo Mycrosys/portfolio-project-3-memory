@@ -50,13 +50,41 @@ def display_memory_field(memory_field):
 
     print(memory_string)
     
+def validate_input(input_str):
+    """
+    Checks if input is valid
+    """
+    if len(input_str)==2:
+        list = [char for char in input_str]
+        if list[0].upper()=="A" or list[0].upper()=="B" or list[0].upper()=="C" or list[0].upper()=="D" or list[0].upper()=="E":
+            if(list[1].isdigit()):
+                if(int(list[1])>0 and int(list[1])<5):
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        else:
+            return False
+    else:
+        return False        
+
 def main():
     """
     Runs the application
     """
     print("Welcome to the memory card game!")
+    print("In this Game, you have to find the pair of cards that match.")
+    print("Reveal the whole Deck and you win.")
+    print("Please chose the first Card to reveal in the format")
+    print("Column and then Row (e.g 'A1' or 'C2' or 'E3')\n")
     playthegame = MemoryCard()
-    display_memory_field(playthegame.solution)
     display_memory_field(playthegame.guess)
+    cardone_str = input("Which Card do you want to reveal? ")
+    if(validate_input(cardone_str)):
+        print("Your Input was valid!")
+    else:
+        print("Invalid Input!")
+    
 
 main()
