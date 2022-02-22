@@ -8,9 +8,26 @@ def generate_memory_field():
     """
     Generates the Memory Card field
     """
-    list_dump = [0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9]
+    list_dump = ["0","0","1","1","2","2","3","3","4","4","5","5","6","6","7","7","8","8","9","9"]
     random.shuffle(list_dump)
     return(list_dump)
+
+class MemoryCard():
+    """
+    Creates an instance of MemoryCard
+    """
+    def __init__(self):
+        self.solution = generate_memory_field()
+        self.guess = ["X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"]
+        
+    def is_revealed(self):
+        """
+        Checks if the Card is already revealed on the field
+        """
+        if self.solution == self.guess:
+            return True
+        else:
+            return False
 
 def display_memory_field(memory_field):
     """
@@ -33,13 +50,13 @@ def display_memory_field(memory_field):
 
     print(memory_string)
     
-
 def main():
     """
     Runs the application
     """
     print("Welcome to the memory card game!")
-    memory = generate_memory_field()
-    display_memory_field(memory)
+    playthegame = MemoryCard()
+    display_memory_field(playthegame.solution)
+    display_memory_field(playthegame.guess)
 
 main()
