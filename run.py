@@ -18,17 +18,21 @@ def display_memory_field(memory_field):
     displays it on the screen
     """
     row=1
+    column=0
     memory_string=""
     print("  A B C D E")
-    for x in range(len(memory_field)):
-        if x%5==0:
-            memory_string+=f"{row} {memory_field[x]} "
+    for memories in memory_field:
+        if column%5==0:
+            memory_string+=f"{row} {memories} "
             row+=1
-        elif x%5==4:
-            memory_string+=f"{memory_field[x]}\n"
+        elif column%5==4:
+            memory_string+=f"{memories}\n"
         else:
-            memory_string+=f"{memory_field[x]} "
+            memory_string+=f"{memories} "
+        column+=1
+
     print(memory_string)
+    
 
 def main():
     """
