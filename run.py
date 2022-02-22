@@ -8,7 +8,8 @@ def generate_memory_field():
     """
     Generates the Memory Card field
     """
-    list_dump = ["0","0","1","1","2","2","3","3","4","4","5","5","6","6","7","7","8","8","9","9"]
+    list_dump = ["0", "0", "1", "1", "2", "2", "3", "3", "4", "4", "5", "5",
+                 "6", "6", "7", "7", "8", "8", "9", "9"]
     random.shuffle(list_dump)
     return(list_dump)
 
@@ -18,7 +19,8 @@ class MemoryCard():
     """
     def __init__(self):
         self.solution = generate_memory_field()
-        self.guess = ["X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"]
+        self.guess = ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X",
+                      "X", "X", "X", "X", "X", "X", "X", "X", "X"]
         
     def is_revealed(self):
         """
@@ -34,31 +36,31 @@ def display_memory_field(memory_field):
     Generate a string out of the memory field and
     displays it on the screen
     """
-    row=1
-    column=0
-    memory_string=""
+    row = 1
+    column = 0
+    memory_string = ""
     print("  A B C D E")
     for memories in memory_field:
-        if column%5==0:
-            memory_string+=f"{row} {memories} "
-            row+=1
-        elif column%5==4:
-            memory_string+=f"{memories}\n"
+        if column % 5==0:
+            memory_string += f"{row} {memories} "
+            row += 1
+        elif column % 5==4:
+            memory_string += f"{memories}\n"
         else:
-            memory_string+=f"{memories} "
-        column+=1
+            memory_string += f"{memories} "
+        column += 1
 
     print(memory_string)
     
 def validate_input(input_str):
     """
-    Checks if input is valid
+    Checks if Input is valid
     """
-    if len(input_str)==2:
+    if len(input_str) == 2:
         list = [char for char in input_str]
-        if list[0].upper()=="A" or list[0].upper()=="B" or list[0].upper()=="C" or list[0].upper()=="D" or list[0].upper()=="E":
+        if list[0].upper() == "A" or list[0].upper() == "B" or list[0].upper() == "C" or list[0].upper() == "D" or list[0].upper() == "E":
             if(list[1].isdigit()):
-                if(int(list[1])>0 and int(list[1])<5):
+                if(int(list[1]) > 0 and int(list[1]) < 5):
                     return True
                 else:
                     return False
@@ -68,6 +70,32 @@ def validate_input(input_str):
             return False
     else:
         return False        
+
+def convert_to_index(input_str):
+    """
+    Converts Input into correct Index for List
+    """
+    list = [char for char in input_str]
+    print(list[0])
+    print(list[1])
+    index = 0
+    if list[0].upper() == "A":
+        index += 0
+    elif list[0].upper() == "B":
+        index += 1
+    elif list[0].upper() == "C":
+        index += 2
+    elif list[0].upper() == "D":
+        index += 3
+    elif list[0].upper() == "E":
+        index += 4
+    else:
+        return 99
+
+    index += (int(list[1])-1)*5
+
+    return index
+
 
 def main():
     """
@@ -83,6 +111,12 @@ def main():
     cardone_str = input("Which Card do you want to reveal? ")
     if(validate_input(cardone_str)):
         print("Your Input was valid!")
+        index = convert_to_index(cardone_str)
+        if index == 99:
+            print("You shouldn't be here!")
+        else:
+            print(f"The Card you reveal is: {playthegame.solution[index]}")
+
     else:
         print("Invalid Input!")
     
