@@ -4,29 +4,24 @@
 
 import random
 
-def generate_memory_field():
-    """
-    Generates the Memory Card field
-    """
-    list_dump = ["0", "0", "1", "1", "2", "2", "3", "3", "4", "4", "5", "5",
-                 "6", "6", "7", "7", "8", "8", "9", "9"]
-    random.shuffle(list_dump)
-    return(list_dump)
-
 class MemoryCard():
     """
     Creates an instance of MemoryCard
     """
     def __init__(self):
-        self.solution = generate_memory_field()
+        self.score = 0                                      # keeps track of the score, 10=all cards revealed
+        self.fails = 0                                      # keeps track of unsuccessful tries
+        self.solution = ["0", "0", "1", "1", "2", "2", "3", "3", "4", "4", "5", "5",
+                 "6", "6", "7", "7", "8", "8", "9", "9"]
         self.guess = ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X",
                       "X", "X", "X", "X", "X", "X", "X", "X", "X"]
+        random.shuffle(self.solution)                       # shuffles the list to create a random Card Deck
         
-    def is_revealed(self):
+    def is_revealed(self, index):
         """
         Checks if the Card is already revealed on the field
         """
-        if self.solution == self.guess:
+        if self.solution[index] == self.guess[index]:
             return True
         else:
             return False
@@ -41,12 +36,12 @@ def display_memory_field(memory_field):
     memory_string = ""
     print("  A B C D E")
     for memories in memory_field:
-        if column % 5==0:
+        if column % 5==0:                           #start of a new row, prints row index then current card
             memory_string += f"{row} {memories} "
             row += 1
-        elif column % 5==4:
+        elif column % 5==4:                         #prints current card then ends the current row after the 5th card
             memory_string += f"{memories}\n"
-        else:
+        else:                                       #prints out current card
             memory_string += f"{memories} "
         column += 1
 
@@ -56,14 +51,15 @@ def validate_input(input_str):
     """
     Checks if Input is valid
     """
-    if len(input_str) == 2:
-        list = [char for char in input_str]
-        if list[0].upper() == "A" or list[0].upper() == "B" or list[0].upper() == "C" or list[0].upper() == "D" or list[0].upper() == "E":
-            if(list[1].isdigit()):
-                if(int(list[1]) > 0 and int(list[1]) < 5):
+    if len(input_str) == 2:                         #checks if input lenght is exactly 2
+        list = [char for char in input_str]         #splits the string into 2 elements
+        if list[0].upper() == "A" or list[0].upper() == "B" or list[0].upper() == "C"   #checks if first element is between A and E
+        or list[0].upper() == "D" or list[0].upper() == "E":
+            if(list[1].isdigit()):                                                      #checks if second is a digit
+                if(int(list[1]) > 0 and int(list[1]) < 5):                              #checks if between 1 and 4
                     return True
                 else:
-                    return False
+                    return False                    #False is returned in all instances of an invalid input
             else:
                 return False
         else:
@@ -75,11 +71,9 @@ def convert_to_index(input_str):
     """
     Converts Input into correct Index for List
     """
-    list = [char for char in input_str]
-    print(list[0])
-    print(list[1])
+    list = [char for char in input_str]             #splits the string into 2 elements
     index = 0
-    if list[0].upper() == "A":
+    if list[0].upper() == "A":                      #increments the index for columns
         index += 0
     elif list[0].upper() == "B":
         index += 1
@@ -90,24 +84,25 @@ def convert_to_index(input_str):
     elif list[0].upper() == "E":
         index += 4
     else:
-        return 99
+        return 99                                   #returns 99 in case of an exception
 
-    index += (int(list[1])-1)*5
+    index += (int(list[1])-1)*5                     #increments index for rows (row 1=0, row 2=5, row 3=10 and row 4=15)
 
-    return index
+    return index                                    #returns index number
 
 
-def main():
+def main():                                         
     """
     Runs the application
     """
-    print("Welcome to the memory card game!")
+    print("Welcome to the memory card game!")                               #Welcome message and instructions
     print("In this Game, you have to find the pair of cards that match.")
     print("Reveal the whole Deck and you win.")
     print("Please chose the first Card to reveal in the format")
     print("Column and then Row (e.g 'A1' or 'C2' or 'E3')\n")
-    playthegame = MemoryCard()
+    playthegame = MemoryCard()                                              #creates a new instance of the class, creating the game
     display_memory_field(playthegame.guess)
+    display_memory_field(playthegame.solution)
     cardone_str = input("Which Card do you want to reveal? ")
     if(validate_input(cardone_str)):
         print("Your Input was valid!")
