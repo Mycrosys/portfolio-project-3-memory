@@ -3,6 +3,7 @@
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
 
 import random
+import os
 
 class MemoryCard():
     """
@@ -53,7 +54,9 @@ def validate_input(input_str):
     """
     if len(input_str) == 2:                         #checks if input lenght is exactly 2
         list = [char for char in input_str]         #splits the string into 2 elements
-        if list[0].upper() == "A" or list[0].upper() == "B" or list[0].upper() == "C" or list[0].upper() == "D" or list[0].upper() == "E":
+        list[0] = list[0].upper()                   #makes the first letter uppercase
+        
+        if list[0] == "A" or list[0] == "B" or list[0] == "C" or list[0] == "D" or list[0] == "E":
             if(list[1].isdigit()):                              #checks if second is a digit and above checks if first is between A and E
                 if(int(list[1]) > 0 and int(list[1]) < 5):      #checks if between 1 and 4
                     return True
@@ -98,57 +101,58 @@ def main():
     print("In this Game, you have to find the pair of cards that match.")
     print("Reveal the whole Deck and you win.")
     playthegame = MemoryCard()                                              #creates a new instance of the class, creating the game
-    display_memory_field(playthegame.guess)
     display_memory_field(playthegame.solution)
     
-    while True:                                                             #starts the first selection of the card
-        print("Please chose the first Card to reveal in the format")
-        print("Column and then Row (e.g 'A1' or 'C2' or 'E3')\n")
-        cardone_str = input("Which Card do you want to reveal? ")
-        if(validate_input(cardone_str)):                                    #validates if input is in correct format
-            print("Your Input was valid!")
-            index1 = convert_to_index(cardone_str)                           #converts the valid input into an index for the list
-            if index1 == 99:                                                 #exception handling, should never happen
-                print("You shouldn't be here!")
-            elif playthegame.is_revealed(index1):                            #checks if list is already revealed on the field
-                print("The card is already revealed on the field!")
+    while playthegame.score < 10:
+        while True:                                                             #starts the first selection of the card
+            print("Please chose the first Card to reveal in the format")
+            print("Column and then Row (e.g 'A1' or 'C2' or 'E3')\n")
+            display_memory_field(playthegame.guess)
+            cardone_str = input("Which Card do you want to reveal? ")
+            if(validate_input(cardone_str)):                                    #validates if input is in correct format
+                print("Your Input was valid!")
+                index1 = convert_to_index(cardone_str)                           #converts the valid input into an index for the list
+                if index1 == 99:                                                 #exception handling, should never happen
+                    print("You shouldn't be here!")
+                elif playthegame.is_revealed(index1):                            #checks if list is already revealed on the field
+                    print("The card is already revealed on the field!")
+                else:
+                    print(f"The Card you reveal is: {playthegame.solution[index1]}")     #tells the player which card he/she revealed
+                    break
             else:
-                print(f"The Card you reveal is: {playthegame.solution[index1]}")     #tells the player which card he/she revealed
-                break
-        else:
-            print("Invalid Input!")
-    
-    while True:                                                             #starts the second selection of the card
-        print("Please chose the second Card to reveal in the format")
-        print("Column and then Row (e.g 'A1' or 'C2' or 'E3')\n")
-        cardtwo_str = input("Which Card do you want to reveal? ")
-        if(validate_input(cardtwo_str)):                                    #validates if input is in correct format
-            print("Your Input was valid!")
-            index2 = convert_to_index(cardtwo_str)                          #converts the valid input into an index for the list
-            if index2 == 99:                                                #exception handling, should never happen
-                print("You shouldn't be here!")
-            elif index2 == index1:                                          #checks if player chose same card with both inputs
-                print("You have to chose 2 different cards to reveal!")     
-            elif playthegame.is_revealed(index2):                           #checks if list is already revealed on the field
-                print("The card is already revealed on the field!")
+                print("Invalid Input!")
+        
+        while True:                                                             #starts the second selection of the card
+            print("Please chose the second Card to reveal in the format")
+            print("Column and then Row (e.g 'A1' or 'C2' or 'E3')\n")
+            cardtwo_str = input("Which Card do you want to reveal? ")
+            if(validate_input(cardtwo_str)):                                    #validates if input is in correct format
+                print("Your Input was valid!")
+                index2 = convert_to_index(cardtwo_str)                          #converts the valid input into an index for the list
+                if index2 == 99:                                                #exception handling, should never happen
+                    print("You shouldn't be here!")
+                elif index2 == index1:                                          #checks if player chose same card with both inputs
+                    print("You have to chose 2 different cards to reveal!")     
+                elif playthegame.is_revealed(index2):                           #checks if list is already revealed on the field
+                    print("The card is already revealed on the field!")
+                else:
+                    print(f"The Card you reveal is: {playthegame.solution[index2]}")    #tells the player which card he/she revealed
+                    break
             else:
-                print(f"The Card you reveal is: {playthegame.solution[index2]}")    #tells the player which card he/she revealed
-                break
-        else:
-            print("Invalid Input!")
-    
-    if playthegame.solution[index1] == playthegame.solution[index2]:        #checks if both revealed cards are the same
-        print("You managed to reveal a pair!")
-        playthegame.guess[index1] = playthegame.solution[index1]            #updates the guess list with revealed cards
-        playthegame.guess[index2] = playthegame.solution[index2]
-        playthegame.score += 1                                              #increases gamescore (correct guesses) by 1
-    
-    else:                                                                   #chosen cards don't match
-        print("The two cards don't match...")
-        playthegame.fails += 1                                              #increases wrong guesses by 1
-    
-    display_memory_field(playthegame.guess)
-
-    input("Press Enter to continue...")
-
+                print("Invalid Input!")
+        
+        if playthegame.solution[index1] == playthegame.solution[index2]:        #checks if both revealed cards are the same
+            print("You managed to reveal a pair!")
+            playthegame.guess[index1] = playthegame.solution[index1]            #updates the guess list with revealed cards
+            playthegame.guess[index2] = playthegame.solution[index2]
+            playthegame.score += 1                                              #increases gamescore (correct guesses) by 1
+        
+        else:                                                                   #chosen cards don't match
+            print("The two cards don't match...")
+            playthegame.fails += 1                                              #increases wrong guesses by 1
+        
+        input("Press Enter to continue...")                                     #waits for player to press Enter to continue the game
+        os.system('cls||clear')                                                 #clears the gamescreen before the next round, this prevents the player
+                                                                                #from scrolling up and looking for old reveals
+    print("Good Job! You finished the whole Deck!")
 main()
