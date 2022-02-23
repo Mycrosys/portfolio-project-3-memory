@@ -5,7 +5,7 @@ import random   # needed for shuffling of the deck
 import os       # needed for clearing the terminal screen
 
 
-class MemoryCard():
+class MemoryCard:
     """
     Creates an instance of MemoryCard
     """
@@ -61,21 +61,22 @@ def validate_input(input_str):
     # checks if input lenght is exactly 2
     if len(input_str) == 2:
         # splits the string into 2 elements
-        chars = [char for char in input_str]
-        # makes the first letter uppercase
-        chars[0] = chars[0].upper()
+        list(input_str)
 
         # checks if first letter is between A and E
         if (
-                chars[0] == "A" or chars[0] == "B" or chars[0] == "C" or
-                chars[0] == "D" or chars[0] == "E"
+                input_str[0].upper() == "A" or
+                input_str[0].upper() == "B" or
+                input_str[0].upper() == "C" or
+                input_str[0].upper() == "D" or
+                input_str[0].upper() == "E"
            ):
 
             # checks if second letter is a digit
-            if chars[1].isdigit():
+            if input_str[1].isdigit():
 
                 # checks if between 1 and 4
-                if(int(chars[1]) > 0 and int(chars[1]) < 5):
+                if int(input_str[1]) > 0 and int(input_str[1]) < 5:
                     return True
 
     # False is returned in all instances of an invalid input
@@ -95,25 +96,26 @@ def convert_to_index(input_str):
     Converts Input into correct Index for List
     """
     # splits the string into 2 elements
-    characters = [char for char in input_str]
+    list(input_str)
+
     index = 0
     # increments the index for columns
-    if characters[0].upper() == "A":
+    if input_str[0].upper() == "A":
         index += 0
-    elif characters[0].upper() == "B":
+    elif input_str[0].upper() == "B":
         index += 1
-    elif characters[0].upper() == "C":
+    elif input_str[0].upper() == "C":
         index += 2
-    elif characters[0].upper() == "D":
+    elif input_str[0].upper() == "D":
         index += 3
-    elif characters[0].upper() == "E":
+    elif input_str[0].upper() == "E":
         index += 4
     else:
         # returns 99 in case of an exception
         return 99
 
     # increments index for rows (row 1=0, row 2=5, row 3=10 and row 4=15)
-    index += (int(characters[1])-1)*5
+    index += (int(input_str[1])-1)*5
 
     return index       # returns index number
 
