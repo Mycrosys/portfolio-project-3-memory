@@ -1,3 +1,6 @@
+"""
+Memory - a simple Memory Card Game
+"""
 import random   # needed for shuffling of the deck
 import os       # needed for clearing the terminal screen
 
@@ -58,19 +61,26 @@ def validate_input(input_str):
     # checks if input lenght is exactly 2
     if len(input_str) == 2:
         # splits the string into 2 elements
-        characters = [char for char in input_str]
+        chars = [char for char in input_str]
         # makes the first letter uppercase
-        characters[0] = characters[0].upper()
+        chars[0] = chars[0].upper()
 
         # checks if first letter is between A and E
-        if characters[0] == "A" or characters[0] == "B" or characters[0] == "C" or characters[0] == "D" or characters[0] == "E":
+        if (
+                chars[0] == "A" or chars[0] == "B" or chars[0] == "C" or
+                chars[0] == "D" or chars[0] == "E"
+           ):
+
             # checks if second letter is a digit
-            if(characters[1].isdigit()):
+            if chars[1].isdigit():
+
                 # checks if between 1 and 4
-                if(int(characters[1]) > 0 and int(characters[1]) < 5):
+                if(int(chars[1]) > 0 and int(chars[1]) < 5):
                     return True
+
+    # False is returned in all instances of an invalid input
+
                 else:
-                    # False is returned in all instances of an invalid input
                     return False
             else:
                 return False
@@ -118,15 +128,15 @@ def main():
     print("Reveal the whole Deck and you win.")
 
     # creates a new instance of the class, creating the game
-    playthegame = MemoryCard()
-    display_memory_field(playthegame.solution)
+    play = MemoryCard()
+    display_memory_field(play.solution)
 
-    while playthegame.score < 10:
+    while play.score < 10:
         # starts the first selection of the card
         while True:
             print("Please chose the first Card to reveal in the format")
             print("Column and then Row (e.g 'A1' or 'C2' or 'E3')\n")
-            display_memory_field(playthegame.guess)
+            display_memory_field(play.guess)
             cardone_str = input("Which Card do you want to reveal? ")
 
             # validates if input is in correct format
@@ -141,12 +151,12 @@ def main():
                     print("You shouldn't be here!")
 
                 # checks if list is already revealed on the field
-                elif playthegame.is_revealed(index1):
+                elif play.is_revealed(index1):
                     print("The card is already revealed on the field!")
 
                 # tells the player which card he/she revealed
                 else:
-                    print(f"The Card you reveal is: {playthegame.solution[index1]}")
+                    print(f"The Card you reveal is: {play.solution[index1]}")
                     break
             else:
                 print("Invalid Input!")
@@ -173,33 +183,33 @@ def main():
                     print("You have to chose 2 different cards to reveal!")
 
                 # checks if list is already revealed on the field
-                elif playthegame.is_revealed(index2):
+                elif play.is_revealed(index2):
                     print("The card is already revealed on the field!")
 
                 # tells the player which card he/she revealed
                 else:
-                    print(f"The Card you reveal is: {playthegame.solution[index2]}")
+                    print(f"The Card you reveal is: {play.solution[index2]}")
                     break
             else:
                 print("Invalid Input!")
 
         # checks if both revealed cards are the same
-        if playthegame.solution[index1] == playthegame.solution[index2]:
+        if play.solution[index1] == play.solution[index2]:
             print("You managed to reveal a pair!")
 
             # updates the guess list with revealed cards
-            playthegame.guess[index1] = playthegame.solution[index1]
-            playthegame.guess[index2] = playthegame.solution[index2]
+            play.guess[index1] = play.solution[index1]
+            play.guess[index2] = play.solution[index2]
 
             # increases gamescore (correct guesses) by 1
-            playthegame.score += 1
+            play.score += 1
 
         # chosen cards don't match
         else:
             print("The two cards don't match...")
 
             # increases wrong guesses by 1
-            playthegame.fails += 1
+            play.fails += 1
 
         # waits for player to press Enter to continue the game
         input("Press Enter to continue...")
