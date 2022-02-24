@@ -9,13 +9,29 @@ class MemoryCard:
     """
     Creates an instance of MemoryCard
     """
-    def __init__(self):
+    def __init__(self, difficulty):
+        self.difficulty = difficulty    # difficulty (0=10 cards, 1=20, 2=30)
         self.score = 0     # keeps track of the score, 10=all cards revealed
         self.fails = 0     # keeps track of unsuccessful tries
         self.solution = ["0", "0", "1", "1", "2", "2", "3", "3", "4", "4",
-                         "5", "5", "6", "6", "7", "7", "8", "8", "9", "9"]
+                         "5", "5", "6", "6", "7", "7", "8", "8", "9", "9",
+                         "a", "a", "b", "b", "c", "c", "d", "d", "e", "e"]
         self.guess = ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X",
-                      "X", "X", "X", "X", "X", "X", "X", "X", "X"]
+                      "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X",
+                      "X", "X", "X", "X", "X", "X", "X", "X"]
+
+        # sets size of list and with it field size and target score
+        if self.difficulty == 0:
+            del self.solution[10:30]
+            del self.guess[10:30]
+            self.target = 5
+        elif self.difficulty == 1:
+            del self.solution[20:30]
+            del self.guess[20:30]
+            self.target = 10
+        else:
+            self.target = 15
+
         # shuffles the list to create a random Card Deck
         random.shuffle(self.solution)
 
@@ -54,10 +70,18 @@ def display_memory_field(memory_field):
     print(memory_string)
 
 
-def validate_input(input_str):
+def validate_input(input_str, difficulty):
     """
     Checks if Input is valid
     """
+    # calculates the row numbers of cards
+    if difficulty == 0:
+        rows = 2
+    elif difficulty == 1:
+        rows = 4
+    else:
+        rows = 6
+
     # checks if input lenght is exactly 2
     if len(input_str) == 2:
         # splits the string into 2 elements
@@ -75,8 +99,8 @@ def validate_input(input_str):
             # checks if second letter is a digit
             if input_str[1].isdigit():
 
-                # checks if between 1 and 4
-                if int(input_str[1]) > 0 and int(input_str[1]) < 5:
+                # checks if between 1 and rows+1
+                if int(input_str[1]) > 0 and int(input_str[1]) < rows+1:
                     return True
 
     # False is returned in all instances of an invalid input
@@ -129,11 +153,32 @@ def main():
     print("In this Game, you have to find the pair of cards that match.")
     print("Reveal the whole Deck and you win.")
 
+    # Choosing the Difficulty
+    print("\nEnter 0 for 10 Cards (5 pairs).")
+    print("Enter 1 for 20 Cards (10 pairs).")
+    print("Enter 2 for 30 Cards (15 pairs).")
+
+    while True:
+        difficulty = input("Please choose your difficulty (0/1/2): ")
+        # checks if it is exactly 1 character
+        if len(difficulty) == 1:
+            # checks if it is a digit
+            if difficulty.isdigit():
+                # checks if it is between 0 and 2
+                if int(difficulty) >= 0 and int(difficulty) < 3:
+                    break
+                else:
+                    print("Please enter a value between 0 and 2.")
+            else:
+                print("Please enter a number.")
+        else:
+            print("Please enter a correct value.")
+
     # creates a new instance of the class, creating the game
-    play = MemoryCard()
+    play = MemoryCard(int(difficulty))
     display_memory_field(play.solution)
 
-    while play.score < 10:
+    while play.score < play.target:
         # starts the first selection of the card
         while True:
             print("Please chose the first Card to reveal in the format")
@@ -142,7 +187,7 @@ def main():
             cardone_str = input("Which Card do you want to reveal? ")
 
             # validates if input is in correct format
-            if validate_input(cardone_str):
+            if validate_input(cardone_str, play.difficulty):
                 print("Your Input was valid!")
 
                 # converts the valid input into an index for the list
@@ -170,7 +215,7 @@ def main():
             cardtwo_str = input("Which Card do you want to reveal? ")
 
             # validates if input is in correct format
-            if validate_input(cardtwo_str):
+            if validate_input(cardtwo_str, play.difficulty):
                 print("Your Input was valid!")
 
                 # converts the valid input into an index for the list
@@ -182,7 +227,7 @@ def main():
 
                 # checks if player chose same card with both inputs
                 elif index2 == index1:
-                    print("You have to chose 2 different cards to reveal!")
+                    print("You have to choose 2 different cards to reveal!")
 
                 # checks if list is already revealed on the field
                 elif play.is_revealed(index2):
