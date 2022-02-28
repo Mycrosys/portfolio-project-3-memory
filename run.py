@@ -16,9 +16,9 @@ class MemoryCard:
         self.solution = ["0", "0", "1", "1", "2", "2", "3", "3", "4", "4",
                          "5", "5", "6", "6", "7", "7", "8", "8", "9", "9",
                          "a", "a", "b", "b", "c", "c", "d", "d", "e", "e"]
-        self.guess = ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X",
-                      "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X",
-                      "X", "X", "X", "X", "X", "X", "X", "X"]
+        self.guess = ["ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ",
+                      "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ",
+                      "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ", "ﾛ"]
 
         # sets size of list and with it field size and target score
         if self.difficulty == 0:
@@ -53,18 +53,21 @@ def display_memory_field(memory_field):
     row = 1
     column = 0
     memory_string = ""
-    print("  A B C D E")
+    print("               +---+---+---+---+---+---+")
+    print("               |   | A | B | C | D | E |")
+    print("               +---+---+---+---+---+---+")
     for memories in memory_field:
         # start of a new row, prints row index then current card
         if column % 5 == 0:
-            memory_string += f"{row} {memories} "
+            memory_string += f"               | {row} | {memories} | "
             row += 1
         # prints current card then ends the current row after the 5th card
         elif column % 5 == 4:
-            memory_string += f"{memories}\n"
+            memory_string += f"{memories} |\n"
+            memory_string += f"               +---+---+---+---+---+---+\n"
         # prints out current card
         else:
-            memory_string += f"{memories} "
+            memory_string += f"{memories} | "
         column += 1
 
     print(memory_string)
