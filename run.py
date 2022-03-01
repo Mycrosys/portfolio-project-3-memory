@@ -44,6 +44,18 @@ class MemoryCard:
         else:
             return False
 
+    def show_card(self, index):
+        """
+        Prints the choosen Card to Terminal
+        """
+        print(f"""
+                        .------.
+                        |{self.solution[index]}.--. |
+                        | :/\: |
+                        | (__) |
+                        | '--'{self.solution[index]}|
+                        `------'""")
+
 
 def display_memory_field(memory_field):
     """
@@ -64,7 +76,7 @@ def display_memory_field(memory_field):
         # prints current card then ends the current row after the 5th card
         elif column % 5 == 4:
             memory_string += f"{memories} |\n"
-            memory_string += f"               +---+---+---+---+---+---+\n"
+            memory_string += "               +---+---+---+---+---+---+\n"
         # prints out current card
         else:
             memory_string += f"{memories} | "
@@ -211,7 +223,7 @@ def main():
         # starts the first selection of the card
         while True:
             print("Please chose the first Card to reveal in the format")
-            print("Column and then Row (e.g 'A1' or 'C2' or 'E3')\n")
+            print("Column and then Row (e.g 'A1' or 'C2' or 'E1')\n")
             display_memory_field(play.guess)
             cardone_str = input("Which Card do you want to reveal? ")
 
@@ -232,15 +244,16 @@ def main():
 
                 # tells the player which card he/she revealed
                 else:
-                    print(f"The Card you reveal is: {play.solution[index1]}")
+                    print("You reveal a Card!")
+                    play.show_card(index1)
                     break
             else:
                 print("Invalid Input!")
 
         # starts the second selection of the card
         while True:
-            print("Please chose the second Card to reveal in the format")
-            print("Column and then Row (e.g 'A1' or 'C2' or 'E3')\n")
+            print("\nPlease chose the second Card to reveal in the format")
+            print("Column and then Row (e.g 'A1' or 'C2' or 'E1')\n")
             cardtwo_str = input("Which Card do you want to reveal? ")
 
             # validates if input is in correct format
@@ -264,14 +277,15 @@ def main():
 
                 # tells the player which card he/she revealed
                 else:
-                    print(f"The Card you reveal is: {play.solution[index2]}")
+                    print("You reveal a Card!")
+                    play.show_card(index2)
                     break
             else:
                 print("Invalid Input!")
 
         # checks if both revealed cards are the same
         if play.solution[index1] == play.solution[index2]:
-            print("You managed to reveal a pair!")
+            print("\nYou managed to permanently reveal a pair!")
 
             # updates the guess list with revealed cards
             play.guess[index1] = play.solution[index1]
@@ -282,7 +296,7 @@ def main():
 
         # chosen cards don't match
         else:
-            print("The two cards don't match...")
+            print("\nThe two cards don't match...")
 
             # increases wrong guesses by 1
             play.fails += 1
@@ -294,6 +308,7 @@ def main():
         os.system('cls||clear')
 
     print("Good Job! You finished the whole Deck!")
+    print(f"You took a total of {play.score+play.fails} tries!")
 
 
 main()
