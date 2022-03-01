@@ -147,17 +147,43 @@ def convert_to_index(input_str):
     return index       # returns index number
 
 
+def splash_title():
+    """
+    Displays a Splash Screen at the start of the Game
+    """
+    print(r"""
+      __  __
+     |  \/  |
+     | \  / | ___ _ __ ___   ___  _ __ _   _
+     | |\/| |/ _ \ '_ ` _ \ / _ \| '__| | | |
+     | |  | |  __/ | | | | | (_) | |  | |_| |
+     |_|__|_|\___|_| |_| |_|\___/|_|   \__, |
+      / ____|            | |            __/ |
+     | |     __ _ _ __ __| |           |___/
+     | |    / _` | '__/ _` |
+     | |___| (_| | | | (_| |
+      \_____\__,_|_|  \__,_|
+      / ____|
+     | |  __  __ _ _ __ ___   ___
+     | | |_ |/ _` | '_ ` _ \ / _ \
+     | |__| | (_| | | | | | |  __/
+      \_____|\__,_|_| |_| |_|\___|""")
+
+
 def main():
     """
     Runs the application
     """
     # Welcome message and instructions
-    print("Welcome to the memory card game!")
+    splash_title()
+    print("\nWelcome to the memory card game!")
     print("In this Game, you have to find the pair of cards that match.")
-    print("Reveal the whole Deck and you win.")
+    print("Reveal the whole Deck and you win.\n")
+    input("Press Enter to continue!")
+    os.system('cls||clear')
 
     # Choosing the Difficulty
-    print("\nEnter 0 for 10 Cards (5 pairs).")
+    print("Enter 0 for 10 Cards (5 pairs).")
     print("Enter 1 for 20 Cards (10 pairs).")
     print("Enter 2 for 30 Cards (15 pairs).")
 
@@ -177,7 +203,7 @@ def main():
         else:
             print("Please enter a correct value.")
 
-    # creates a new instance of the class, creating the game
+    # creates a new instance of MemoryCard, creating the game
     play = MemoryCard(int(difficulty))
     display_memory_field(play.solution)
 
@@ -264,8 +290,7 @@ def main():
         # waits for player to press Enter to continue the game
         input("Press Enter to continue...")
 
-        # clears the gamescreen before the next round, this prevents the player
-        # from scrolling up and looking for old reveals
+        # clears the gamescreen before the next round
         os.system('cls||clear')
 
     print("Good Job! You finished the whole Deck!")
