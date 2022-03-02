@@ -3,6 +3,7 @@ Memory - a simple Memory Card Game
 """
 import random   # needed for shuffling of the deck
 import os       # needed for clearing the terminal screen
+from colorama import Fore, Style  # needed for colored output
 
 
 class MemoryCard:
@@ -56,33 +57,32 @@ class MemoryCard:
                         | '--'{self.solution[index]}|
                         `------'""")
 
+    def display_memory_field(self):
+        """
+        Generate a string out of the memory field and
+        displays it on the screen
+        """
+        row = 1
+        column = 0
+        memory_string = ""
+        print("               +---+---+---+---+---+---+")
+        print("               |   | A | B | C | D | E |")
+        print("               +---+---+---+---+---+---+")
+        for memories in self.guess:
+            # start of a new row, prints row index then current card
+            if column % 5 == 0:
+                memory_string += f"               | {row} | {memories} | "
+                row += 1
+            # prints current card then ends the current row after the 5th card
+            elif column % 5 == 4:
+                memory_string += f"{memories} |\n"
+                memory_string += "               +---+---+---+---+---+---+\n"
+            # prints out current card
+            else:
+                memory_string += f"{memories} | "
+            column += 1
 
-def display_memory_field(memory_field):
-    """
-    Generate a string out of the memory field and
-    displays it on the screen
-    """
-    row = 1
-    column = 0
-    memory_string = ""
-    print("               +---+---+---+---+---+---+")
-    print("               |   | A | B | C | D | E |")
-    print("               +---+---+---+---+---+---+")
-    for memories in memory_field:
-        # start of a new row, prints row index then current card
-        if column % 5 == 0:
-            memory_string += f"               | {row} | {memories} | "
-            row += 1
-        # prints current card then ends the current row after the 5th card
-        elif column % 5 == 4:
-            memory_string += f"{memories} |\n"
-            memory_string += "               +---+---+---+---+---+---+\n"
-        # prints out current card
-        else:
-            memory_string += f"{memories} | "
-        column += 1
-
-    print(memory_string)
+        print(memory_string)
 
 
 def validate_input(input_str, difficulty):
@@ -182,6 +182,19 @@ def splash_title():
       \_____|\__,_|_| |_| |_|\___|""")
 
 
+def splash_win():
+    """
+    Displays a Splash Screen when winning the Game
+    """
+    print(r"""
+      __     __          __          ___         _
+      \ \   / /          \ \        / (_)       | |
+       \ \_/ /__  _   _   \ \  /\  / / _ _ __   | |
+        \   / _ \| | | |   \ \/  \/ / | | '_ \  | |
+         | | (_) | |_| |    \  /\  /  | | | | | |_|
+         |_|\___/ \__,_|     \/  \/   |_|_| |_| (_)""")
+
+
 def main():
     """
     Runs the application
@@ -195,12 +208,13 @@ def main():
     os.system('cls||clear')
 
     # Choosing the Difficulty
-    print("Enter 0 for 10 Cards (5 pairs).")
+    print(Fore.BLUE + "Enter 0 for 10 Cards (5 pairs).")
     print("Enter 1 for 20 Cards (10 pairs).")
     print("Enter 2 for 30 Cards (15 pairs).")
+    print(Style.RESET_ALL)
 
     while True:
-        difficulty = input("Please choose your difficulty (0/1/2): ")
+        difficulty = input("\nPlease choose your difficulty (0/1/2): ")
         # checks if it is exactly 1 character
         if len(difficulty) == 1:
             # checks if it is a digit
@@ -217,20 +231,21 @@ def main():
 
     # creates a new instance of MemoryCard, creating the game
     play = MemoryCard(int(difficulty))
-    display_memory_field(play.solution)
+    print("\n")
 
     while play.score < play.target:
         # starts the first selection of the card
         while True:
-            print("Please chose the first Card to reveal in the format")
-            print("Column and then Row (e.g 'A1' or 'C2' or 'E1')\n")
-            display_memory_field(play.guess)
+            print(Fore.BLUE + "Please chose the first Card to reveal in the")
+            print("format Column and then Row (e.g 'A1' or 'C2' or 'E1')\n")
+            print(Style.RESET_ALL)
+
+            play.display_memory_field()
             cardone_str = input("Which Card do you want to reveal? ")
 
             # validates if input is in correct format
             if validate_input(cardone_str, play.difficulty):
-                print("Your Input was valid!")
-
+                
                 # converts the valid input into an index for the list
                 index1 = convert_to_index(cardone_str)
 
@@ -252,14 +267,15 @@ def main():
 
         # starts the second selection of the card
         while True:
-            print("\nPlease chose the second Card to reveal in the format")
-            print("Column and then Row (e.g 'A1' or 'C2' or 'E1')\n")
+            print("\n")
+            print(Fore.BLUE + "Please chose the second Card to reveal in the")
+            print("format Column and then Row (e.g 'A1' or 'C2' or 'E1')\n")
+            print(Style.RESET_ALL)
             cardtwo_str = input("Which Card do you want to reveal? ")
 
             # validates if input is in correct format
             if validate_input(cardtwo_str, play.difficulty):
-                print("Your Input was valid!")
-
+                
                 # converts the valid input into an index for the list
                 index2 = convert_to_index(cardtwo_str)
 
@@ -285,7 +301,8 @@ def main():
 
         # checks if both revealed cards are the same
         if play.solution[index1] == play.solution[index2]:
-            print("\nYou managed to permanently reveal a pair!")
+            print(Fore.GREEN + "\nYou managed to permanently reveal a pair!")
+            print(Style.RESET_ALL)
 
             # updates the guess list with revealed cards
             play.guess[index1] = play.solution[index1]
@@ -296,7 +313,8 @@ def main():
 
         # chosen cards don't match
         else:
-            print("\nThe two cards don't match...")
+            print(Fore.RED + "\nThe two cards don't match...")
+            print(Style.RESET_ALL)
 
             # increases wrong guesses by 1
             play.fails += 1
@@ -307,8 +325,8 @@ def main():
         # clears the gamescreen before the next round
         os.system('cls||clear')
 
-    print("Good Job! You finished the whole Deck!")
-    print(f"You took a total of {play.score+play.fails} tries!")
+    splash_win()
+    print(f"\nGood Job! You took a total of {play.score+play.fails} tries!")
 
 
 main()
