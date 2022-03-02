@@ -215,6 +215,8 @@ def main():
     print("Enter 2 for 30 Cards (15 pairs).")
     print(Style.RESET_ALL)
 
+    difficulty_int = 0
+
     while True:
         difficulty = input("\nPlease choose your difficulty (0/1/2): ")
         # checks if it is exactly 1 character
@@ -223,6 +225,7 @@ def main():
             if difficulty.isdigit():
                 # checks if it is between 0 and 2
                 if int(difficulty) >= 0 and int(difficulty) < 3:
+                    difficulty_int = int(difficulty)
                     break
                 else:
                     print("Please enter a value between 0 and 2.")
@@ -232,7 +235,7 @@ def main():
             print("Please enter a correct value.")
 
     # creates a new instance of MemoryCard, creating the game
-    play = MemoryCard(int(difficulty))
+    play = MemoryCard(difficulty_int)
     print("\n")
 
     while play.score < play.target:
