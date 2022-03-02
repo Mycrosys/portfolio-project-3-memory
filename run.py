@@ -59,8 +59,8 @@ class MemoryCard:
 
     def display_memory_field(self):
         """
-        Generate a string out of the memory field and
-        displays it on the screen
+        Generate a string out of the revealed memory field
+        and displays it on the screen
         """
         row = 1
         column = 0
@@ -87,7 +87,7 @@ class MemoryCard:
 
 def validate_input(input_str, difficulty):
     """
-    Checks if Input is valid
+    Checks if Input when choosing a Card is valid
     """
     # calculates the row numbers of cards
     if difficulty == 0:
@@ -132,7 +132,7 @@ def validate_input(input_str, difficulty):
 
 def convert_to_index(input_str):
     """
-    Converts Input into correct Index for List
+    Converts Input of chosen Card into correct Index for List
     """
     # splits the string into 2 elements
     list(input_str)
@@ -161,7 +161,8 @@ def convert_to_index(input_str):
 
 def splash_title():
     """
-    Displays a Splash Screen at the start of the Game
+    Displays a Splash Screen at the start of the Game.
+    This is purely cosmetic.
     """
     print(r"""
       __  __
@@ -184,7 +185,8 @@ def splash_title():
 
 def splash_win():
     """
-    Displays a Splash Screen when winning the Game
+    Displays a Splash Screen when winning the Game.
+    This is purely cosmetic.
     """
     print(r"""
       __     __          __          ___         _
@@ -240,12 +242,12 @@ def main():
             print("format Column and then Row (e.g 'A1' or 'C2' or 'E1')\n")
             print(Style.RESET_ALL)
 
-            play.display_memory_field()
+            play.display_memory_field()  # displays the card field to player
             cardone_str = input("Which Card do you want to reveal? ")
 
             # validates if input is in correct format
             if validate_input(cardone_str, play.difficulty):
-                
+
                 # converts the valid input into an index for the list
                 index1 = convert_to_index(cardone_str)
 
@@ -275,7 +277,7 @@ def main():
 
             # validates if input is in correct format
             if validate_input(cardtwo_str, play.difficulty):
-                
+
                 # converts the valid input into an index for the list
                 index2 = convert_to_index(cardtwo_str)
 
