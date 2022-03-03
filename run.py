@@ -3,7 +3,7 @@ Memory - a simple Memory Card Game
 """
 import random   # needed for shuffling of the deck
 import os       # needed for clearing the terminal screen
-from colorama import Fore, Style  # needed for colored output
+from colorama import Fore, Style  # needed for colored text output
 
 
 class MemoryCard:
@@ -156,7 +156,7 @@ def convert_to_index(input_str):
     # increments index for rows (row 1=0, row 2=5, row 3=10 and row 4=15)
     index += (int(input_str[1])-1)*5
 
-    return index       # returns index number
+    return index
 
 
 def splash_title():
@@ -215,17 +215,14 @@ def main():
     print("Enter 2 for 30 Cards (15 pairs).")
     print(Style.RESET_ALL)
 
-    difficulty_int = 0
-
     while True:
-        difficulty = input("\nPlease choose your difficulty (0/1/2): ")
+        difficulty = input("Please choose your difficulty (0/1/2): ")
         # checks if it is exactly 1 character
         if len(difficulty) == 1:
             # checks if it is a digit
             if difficulty.isdigit():
                 # checks if it is between 0 and 2
                 if int(difficulty) >= 0 and int(difficulty) < 3:
-                    difficulty_int = int(difficulty)
                     break
                 else:
                     print("Please enter a value between 0 and 2.")
@@ -235,17 +232,18 @@ def main():
             print("Please enter a correct value.")
 
     # creates a new instance of MemoryCard, creating the game
-    play = MemoryCard(difficulty_int)
+    play = MemoryCard(int(difficulty))
     print("\n")
 
     while play.score < play.target:
         # starts the first selection of the card
         while True:
             print(Fore.BLUE + "Please chose the first Card to reveal in the")
-            print("format Column and then Row (e.g 'A1' or 'C2' or 'E1')\n")
+            print("format Column and then Row (e.g 'A1' or 'C2' or 'E1').")
             print(Style.RESET_ALL)
 
-            play.display_memory_field()  # displays the card field to player
+            # displays the card field to player
+            play.display_memory_field()
             cardone_str = input("Which Card do you want to reveal? ")
 
             # validates if input is in correct format
@@ -260,7 +258,7 @@ def main():
 
                 # checks if list is already revealed on the field
                 elif play.is_revealed(index1):
-                    print("The card is already revealed on the field!")
+                    print("This card is already revealed on the field.")
 
                 # tells the player which card he/she revealed
                 else:
@@ -268,13 +266,13 @@ def main():
                     play.show_card(index1)
                     break
             else:
-                print("Invalid Input!")
+                print("Invalid Input, please try again.")
 
         # starts the second selection of the card
         while True:
             print("\n")
             print(Fore.BLUE + "Please chose the second Card to reveal in the")
-            print("format Column and then Row (e.g 'A1' or 'C2' or 'E1')\n")
+            print("format Column and then Row (e.g 'A1' or 'C2' or 'E1').")
             print(Style.RESET_ALL)
             cardtwo_str = input("Which Card do you want to reveal? ")
 
@@ -290,11 +288,11 @@ def main():
 
                 # checks if player chose same card with both inputs
                 elif index2 == index1:
-                    print("You have to choose 2 different cards to reveal!")
+                    print("You have to choose 2 different cards to reveal.")
 
                 # checks if list is already revealed on the field
                 elif play.is_revealed(index2):
-                    print("The card is already revealed on the field!")
+                    print("This card is already revealed on the field.")
 
                 # tells the player which card he/she revealed
                 else:
@@ -302,11 +300,11 @@ def main():
                     play.show_card(index2)
                     break
             else:
-                print("Invalid Input!")
+                print("Invalid Input, please try again.")
 
         # checks if both revealed cards are the same
         if play.solution[index1] == play.solution[index2]:
-            print(Fore.GREEN + "\nYou managed to permanently reveal a pair!")
+            print(Fore.GREEN + "\n\nYou managed to permanently reveal a pair!")
             print(Style.RESET_ALL)
 
             # updates the guess list with revealed cards
@@ -318,7 +316,7 @@ def main():
 
         # chosen cards don't match
         else:
-            print(Fore.RED + "\nThe two cards don't match...")
+            print(Fore.RED + "\n\nThe two cards don't match...")
             print(Style.RESET_ALL)
 
             # increases wrong guesses by 1
@@ -330,6 +328,7 @@ def main():
         # clears the gamescreen before the next round
         os.system('cls||clear')
 
+    # Winning message and total tries to win
     splash_win()
     print(f"\nGood Job! You took a total of {play.score+play.fails} tries!")
 
