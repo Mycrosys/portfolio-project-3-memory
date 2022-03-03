@@ -1,31 +1,201 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+<h1 align="center"><a name="top">Memory Card Game</a></h1>
 
-Welcome Mycrosys,
+[View the live project here.](https://portfolio-project-3-memory.herokuapp.com/)
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **August 17, 2021**
+Memory Card Game is a Python terminal game, which runs in the Code Institute mock terminal on Heroku.
 
-## Reminders
+Players can try to challenge themselves on different Deck sizes and train their memory to remember each cards position. Once they finish the Deck, they are told how many total tries it took to reveal all the pairs in the Deck.
 
-* Your code must be placed in the `run.py` file
-* Your dependencies must be placed in the `requirements.txt` file
-* Do not edit any of the other files or your code may not deploy properly
+<h2 align="center"><img src="./docs/images/mcg_website.jpg" alt="The Memory Card Game on multiple Devices"></h2>
 
-## Creating the Heroku app
+<br>
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+## Table of Contents
 
-1. `heroku/python`
-2. `heroku/nodejs`
+### I. [The Game and how to play](#thegame)
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+### II. [Features](#features)
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+### III. [Flowchart](#flowchart)
 
-Connect your GitHub repository and deploy as normal.
+### IV. [Technologies Used](#technology)
 
-## Constraints
+### V. [Data Model](#datamodel)
 
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+### VI. [Testing](#testing)
 
------
-Happy coding!
+### VII. [Deployment](#deployment)
+
+### VIII. [Credits](#credits)
+
+<br><br>
+
+
+## <a name="thegame">The Game and how to play</a>
+
+###   Basics
+-   This is a concentration type game. Players are challenged to remember the position of certain cards and to reveal them in pairs once they figure out matching ones. The goal is to reveal the whole Deck, preferably with minimal amount of wrong guesses. You can read more about the game in the article on [Wikipedia](https://en.wikipedia.org/wiki/Concentration_(card_game)).
+
+###   Starting the Game
+-   The Game starts immediately and provides you with a splash screen and some basic information how it works.
+<h2><img src="./docs/images/thegame_start.jpg" alt="Picture of the start of the game"></h2><br>
+
+###   Setting options
+-   There is only 1 Setting (Difficulty) which comes in 3 variations.
+-   If you want a fast game, the 0 difficulty (Easy) offers you a Deck of 10 Cards (5 pairs)
+-   For a medium length game, the 1 difficulty (Normal) offers you a Deck of 20 Cards (10 pairs)
+-   In case you want to challenge yourself, the 2 difficulty (Hard) gives you a Deck of 30 Cards (15 pairs)
+<h2><img src="./docs/images/thegame_difficulty.jpg" alt="Picture of available Difficulties"></h2><br>
+
+###   Core Gameplay Loop
+-   You start by choosing a Card to reveal of the Deck. The available cards (as well as the revealed pairs) are shown to you in a table. 
+<h2><img src="./docs/images/thegame_choosecard.jpg" alt="Picture of the Interface when choosing a Card"></h2><br>
+
+-   You can neither choose the same card twice nor a card that's part of an already revealed pair.
+-   After you have chosen 2 Cards, you will get feedback if they match and if they do, they will be shown in the Table when you chose your next cards.
+<h2><img src="./docs/images/thegame_reveal1.jpg" alt="Picture of the Interface when a matching Pair is found"></h2><br>
+
+-   The screen will then be cleared and you will be able to choose 2 new cards, until all pairs of the Deck are revealed.
+<h2><img src="./docs/images/thegame_reveal2.jpg" alt="Picture of the Interface after several Pairs are revealed and you can choose a new Card"></h2><br>
+
+###   Winning the Game
+-   You win the game when you reveal the whole Deck. There is no losing condition. The goal is to repeatedly go through the same gameplay loop and train your brain/memory. Once you win the Game, the program ends and you can restart it by pressing the "Run Program" Button on the top of the screen.
+<h2><img src="./docs/images/thegame_winner.jpg" alt="Picture of winner announcement"></h2><br>
+
+<br>
+
+
+## <a name="flowchart">Flowchart</a>
+
+- This Flowchart was used for designing the program before any coding was done
+<h2><img src="./docs/images/flowchart.jpg" alt="Flowchart of the Program"></h2><br>
+
+
+## <a name="features">Features</a>
+
+###   Random Generation of Decks
+
+- The Deck is randomly shuffled each time the game starts so that the player can enjoy a fresh challenge every time he/she plays.
+
+###   Colored Text
+
+- Different areas of the game are color coded. Whenever there is an explanation for an Input by the Player, it is coded in Blue. When 2 Cards match, the feedback text is colored in green. If they do not match, you get a feedback text in red.
+
+###   Ascii Art
+
+- Players are welcome by an Ascii Art when they start the game. Each revealed Card is also implemented as a little ascii style Card when displayed in the terminal. Lastly, when players finish the Deck, they will see an Ascii Art with the Words "You Win!" at the end of the game.
+
+###   Accepts User Input
+
+- Players can choose 2 cards to be shown. These Inputs are error-checked before being processed. If any wrong Input occurs, the player is asked to repeat their Input until a correct value is found. This includes wrong format, choosing cards that are part of already revealed pairs and choosing the same card twice.
+
+###   Tracking of tries (score)
+
+- The amount of tries a player takes to reveal the whole Deck is tracked by the program. At the end of the game, this is also displayed on the terminal for personal scorekeeping.
+
+<br>
+
+
+## <a name="datamodel">Data Model</a>
+
+The MemoryCard Class was used to store all necessary information for running the game. It contains both the card Deck the player is working on to reveal the cards, the solution card deck, difficulty and scores. The Class contains methods to display the Card Deck in a neatly formatted table in the terminal, display cards in nice ascii art and checks if a card is already part of a revealed pair.
+
+<br>
+
+
+## <a name="technology">Technologies Used</a>
+
+### Languages Used
+
+-   [Python](https://en.wikipedia.org/wiki/Python_(programming_language))
+
+### Frameworks, Libraries & Programs Used
+
+1. [Code Institute Python Terminal Webpage:](https://github.com/Code-Institute-Org/python-essentials-template)
+    - This Template was used as a requirement for this Project to display the Terminal.
+1. [Git](https://git-scm.com/)
+    - Git was used for version control by utilizing the Gitpod terminal to commit to Git and Push to GitHub.
+1. [GitHub:](https://github.com/)
+    - GitHub is used to store the project's code after being pushed from Git.
+1. [Gimp:](https://www.gimp.org/)
+    - Gimp was used to create, modify and resize all images on this website.
+1. [Lucidchart:](https://www.lucidchart.com/pages/)
+    - Lucidchart was used vor the Flowchart and planning of the program before any coding was actually done.
+
+<br>
+
+
+## <a name="testing">Testing</a>
+
+### General Testing
+
+1. The PEP8 Validator Services were used to validate the project to ensure there were no syntax errors in it.
+    - [PEP8 Validator](http://pep8online.com/)
+        <h2><img src="./docs/images/pep8_results.jpg" alt="Picture of the PEP8 validation results"></h2>
+
+<br>
+
+### Further Testing
+
+-   Different Userinputs were used when trying to choose difficulty and Cards, to make sure all Inputs are valid
+-   Friends were asked to review the site to point out any bugs and/or user experience issues.
+
+<br>
+
+### Known Bugs
+
+-   When choosing Difficulty, it can, on rare occurences, lead to a crash of the Game. The Input itself does not matter, it sometimes simply fails when the int() function is called and in other instances it works fine. Even Tutor Support was unable to reproduce the error, with the same Inputs often working and sometimes not. It might be related to messages on Gitpod with the Python server crashing multiple times, though it did happen on deployed heroku as well. Further Testing is needed to find out why this happens. Please see the screenshot below for the error message if this happens.
+<h2><img src="./docs/images/encoding_bug.jpg" alt="Picture of the encoding Bug"></h2><br>
+
+
+## <a name="deployment">Deployment</a>
+
+### Heroku
+
+The project was deployed using Code Institute's mock terminal for Heroku using the following steps...
+
+1. Fork or clone this repository
+2. Create a new Heroku app
+3. Set the buildbacks to 'Python' and 'NodeJS' in that order
+4. Add a Config Var named 'PORT' with the value '8000'
+5. Link the Heroku app to the repository
+6. Click on Deploy
+
+### Forking the GitHub Repository
+
+By forking the GitHub Repository we make a copy of the original repository on our GitHub account to view and/or make changes without affecting the original repository by using the following steps...
+
+1. Log in to GitHub and locate the [GitHub Repository](https://github.com/Mycrosys/portfolio-project-3-memory)
+2. At the top of the Repository (not top of page) just above the "Settings" Button on the menu, locate the "Fork" Button.
+3. You should now have a copy of the original repository in your GitHub account.
+
+### Making a Local Clone
+
+1. Log in to GitHub and locate the [GitHub Repository](https://github.com/Mycrosys/portfolio-project-3-memory)
+2. Under the repository name, click "Clone or download".
+3. To clone the repository using HTTPS, under "Clone with HTTPS", copy the link.
+4. Open Git Bash
+5. Change the current working directory to the location where you want the cloned directory to be made.
+6. Type `git clone`, and then paste the URL you copied in Step 3.
+7. Press Enter. Your local clone will be created.
+
+Click [Here](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository#cloning-a-repository-to-github-desktop) to retrieve pictures for some of the buttons and more detailed explanations of the above process.
+
+<br>
+
+
+## <a name="credits">Credits</a>
+
+### Framework
+
+- The Mock Terminal for Deployment on Heroku belongs to [Code Institute](https://codeinstitute.net/global/) and can be found [here](https://github.com/Code-Institute-Org/python-essentials-template).
+
+### Readme
+
+-   The Basic Structure of the Readme was taken from [Code Institute's Sample Readme](https://github.com/Code-Institute-Solutions/SampleREADME/blob/master/README.md).
+
+### Acknowledgements
+
+-   My Mentor for continuous helpful feedback.
+-   Tutor Support for their help.
+-   My Peers in Code Institute's Slack channel for their feedback.
