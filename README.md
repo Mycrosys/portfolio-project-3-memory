@@ -24,7 +24,7 @@ Players can try to challenge themselves on different Deck sizes and train their 
 
 ### VI. [Testing](#testing)
 
-### VII. [Limitations/Restrictions](#testing)
+### VII. [Limitations/Restrictions](#limitations)
 
 ### VIII. [Deployment](#deployment)
 
