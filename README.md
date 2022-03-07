@@ -99,7 +99,7 @@ Players can try to challenge themselves on different Deck sizes and train their 
 
 ## ([^](#tableofcontents)) <a name="datamodel">Data Model</a>
 
-The MemoryCard Class was used to store all necessary information for running the game. It contains both the card Deck the player is working on to reveal the cards, the solution card deck, difficulty and scores. The Class contains methods to display the Card Deck in a neatly formatted table in the terminal, display cards in nice ascii art and checks if a card is already part of a revealed pair.
+The MemoryCard Class was used to store all necessary information for running the game. It contains both the card Deck the player is working on to reveal the cards, the solution card deck, difficulty and scores. The Class contains methods to get Player Inputs when choosing Cards, display the Card Deck in a neatly formatted table in the terminal, display cards in nice ASCII art and checks if a card is already part of a revealed pair.
 
 <br>
 
@@ -119,6 +119,8 @@ The MemoryCard Class was used to store all necessary information for running the
     - GitHub is used to store the project's code after being pushed from Git.
 1. [Gimp:](https://www.gimp.org/)
     - Gimp was used to create, modify and resize all images on this website.
+1. [Text to ASCII Art Generator:](https://patorjk.com/software/taag/)
+    - This Website based Generator was used to generate the ASCII Art for the Splash Screen, Winning Announcement and Card display in the terminal.
 1. [Lucidchart:](https://www.lucidchart.com/pages/)
     - Lucidchart was used for the Flowchart and planning of the program before any coding was actually done.
 
@@ -131,7 +133,7 @@ The MemoryCard Class was used to store all necessary information for running the
 1. The PEP8 Validator Services were used to validate the project to ensure there were no syntax errors in it.
     - [PEP8 Validator](http://pep8online.com/)
         <h2><img src="./docs/images/pep8_results.jpg" alt="Picture of the PEP8 validation results"></h2>
-2. There is no need for a testing/validation of the CSS/HTML5 and JS code used in this project because the only modified code is python. Everything else is just the provided template by code institute. For that reason, there is also no Google lighthouse testing or testing on different devices and browsers.
+2. There is no need for a testing/validation of the CSS/HTML5 and JS code used in this project because the only modified code is python. Everything else is just the provided template by Code Institute. For that reason, there is also no Google lighthouse testing or testing on different devices and browsers.
 <br>
 
 ### Further Testing
@@ -143,7 +145,7 @@ The MemoryCard Class was used to store all necessary information for running the
 
 ### Known Bugs
 
--   When choosing Difficulty, it can, on rare occurrences, lead to a crash of the Game. The Input itself does not matter, it sometimes simply fails when the int() function is called and in other instances it works fine. Even Tutor Support was unable to reproduce the error, with the same Inputs often working and sometimes not. It might be related to messages on Gitpod with the Python server crashing multiple times, though it did happen on the deployed version on heroku as well. Further Testing is needed to find out why this happens. Please see the screenshot below for the error message.
+-   When choosing Difficulty, it can, on rare occurrences, lead to a crash of the Game. The Input itself does not matter, it sometimes simply fails when the int() function is called and in other instances it works fine. Even Tutor Support was unable to reproduce the error, with the same Inputs often working and sometimes not. It might be related to messages on Gitpod with the Python server crashing multiple times, though it did happen on the deployed version on heroku as well. Further Testing is needed to find out why this happens. The Code at that point has been wrapped in a try/except to more gracefully exit the program in case it does break at that point. Please see a screen of the message below.
 <h2><img src="./docs/images/encoding_bug.jpg" alt="Picture of the encoding Bug"></h2>
 
 -   Players can scroll up in the terminal and look at their old inputs and reveals. This might sometimes also break the display of the cards, but that is sadly a limitation of the terminal and the template itself.
@@ -190,7 +192,6 @@ By forking the GitHub Repository we make a copy of the original repository on ou
 Click [Here](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository#cloning-a-repository-to-github-desktop) to retrieve pictures for some of the buttons and more detailed explanations of the above process.
 
 <br>
-
 
 ## ([^](#tableofcontents)) <a name="credits">Credits</a>
 

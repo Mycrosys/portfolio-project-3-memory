@@ -48,6 +48,8 @@ class MemoryCard:
     def show_card(self, index):
         """
         Prints the choosen Card to Terminal
+        Ascii Art is created by Text to ASCII Art Generator:
+        https://patorjk.com/software/taag/
         """
         print(f"""
                         .------.
@@ -163,6 +165,8 @@ def splash_title():
     """
     Displays a Splash Screen at the start of the Game.
     This is purely cosmetic.
+    Ascii Art is created by Text to ASCII Art Generator:
+    https://patorjk.com/software/taag/
     """
     print(r"""
       __  __
@@ -187,6 +191,8 @@ def splash_win():
     """
     Displays a Splash Screen when winning the Game.
     This is purely cosmetic.
+    Ascii Art is created by Text to ASCII Art Generator:
+    https://patorjk.com/software/taag/
     """
     print(r"""
       __     __          __          ___         _
@@ -215,24 +221,31 @@ def main():
     print("Enter 2 for 30 Cards (15 pairs).")
     print(Style.RESET_ALL)
 
+    difficulty_int = 0
+
     while True:
         difficulty = input("Please choose your difficulty (0/1/2): ")
         # checks if it is exactly 1 character
         if len(difficulty) == 1:
             # checks if it is a digit
             if difficulty.isdigit():
-                # checks if it is between 0 and 2
-                if int(difficulty) >= 0 and int(difficulty) < 3:
-                    break
-                else:
-                    print("Please enter a value between 0 and 2.")
+                try:
+                    difficulty_int = int(difficulty)
+                    # checks if it is between 0 and 2
+                    if difficulty_int >= 0 and difficulty_int < 3:
+                        break
+                    else:
+                        print("Please enter a value between 0 and 2.")
+
+                except UnicodeError as exception_error:
+                    print(f"The Decoding failed: {exception_error}")
             else:
                 print("Please enter a number.")
         else:
             print("Please enter a correct value.")
 
     # creates a new instance of MemoryCard, creating the game
-    play = MemoryCard(int(difficulty))
+    play = MemoryCard(difficulty_int)
     print("\n")
 
     while play.score < play.target:
