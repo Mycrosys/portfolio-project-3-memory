@@ -57,7 +57,7 @@ class MemoryCard:
                         | :/\: |
                         | (__) |
                         | '--'{self.solution[index]}|
-                        `------'""")
+                        `------'\n""")
 
     def display_memory_field(self):
         """
@@ -85,6 +85,42 @@ class MemoryCard:
             column += 1
 
         print(memory_string)
+
+    def get_card(self, other_index):
+        """
+        Get Player Input for showing a Card
+        """
+        while True:
+            print(Fore.BLUE + "Please chose a Card to reveal in the")
+            print("format Column and then Row (e.g 'A1' or 'C2' or 'E1').")
+            print(Style.RESET_ALL)
+            cardtwo_str = input("Which Card do you want to reveal? ")
+
+            # validates if input is in correct format
+            if validate_input(cardtwo_str, self.difficulty):
+
+                # converts the valid input into an index for the list
+                index = convert_to_index(cardtwo_str)
+
+                # exception handling, should never happen
+                if index == 99:
+                    print("You shouldn't be here!")
+
+                # checks if player chose same card with both inputs
+                elif index == other_index:
+                    print("You have to choose 2 different cards to reveal.")
+
+                # checks if list is already revealed on the field
+                elif self.is_revealed(index):
+                    print("This card is already revealed on the field.")
+
+                # tells the player which card he/she revealed
+                else:
+                    print("You reveal a Card!")
+                    self.show_card(index)
+                    return index
+            else:
+                print("Invalid Input, please try again.")
 
 
 def validate_input(input_str, difficulty):
@@ -249,75 +285,24 @@ def main():
     print("\n")
 
     while play.score < play.target:
+        # displays the card field to player
+        play.display_memory_field()
+
         # starts the first selection of the card
-        while True:
-            print(Fore.BLUE + "Please chose the first Card to reveal in the")
-            print("format Column and then Row (e.g 'A1' or 'C2' or 'E1').")
-            print(Style.RESET_ALL)
-
-            # displays the card field to player
-            play.display_memory_field()
-            cardone_str = input("Which Card do you want to reveal? ")
-
-            # validates if input is in correct format
-            if validate_input(cardone_str, play.difficulty):
-
-                # converts the valid input into an index for the list
-                index1 = convert_to_index(cardone_str)
-
-                # exception handling, should never happen
-                if index1 == 99:
-                    print("You shouldn't be here!")
-
-                # checks if list is already revealed on the field
-                elif play.is_revealed(index1):
-                    print("This card is already revealed on the field.")
-
-                # tells the player which card he/she revealed
-                else:
-                    print("You reveal a Card!")
-                    play.show_card(index1)
-                    break
-            else:
-                print("Invalid Input, please try again.")
+        # the value of 95 is given, because this is the first
+        # card to reveal this round and a check is made if the
+        # first and second chosen card in a given round is the same
+        # 95 is an index that will never happen, so that check is ignored
+        index1 = play.get_card(95)
 
         # starts the second selection of the card
-        while True:
-            print("\n")
-            print(Fore.BLUE + "Please chose the second Card to reveal in the")
-            print("format Column and then Row (e.g 'A1' or 'C2' or 'E1').")
-            print(Style.RESET_ALL)
-            cardtwo_str = input("Which Card do you want to reveal? ")
-
-            # validates if input is in correct format
-            if validate_input(cardtwo_str, play.difficulty):
-
-                # converts the valid input into an index for the list
-                index2 = convert_to_index(cardtwo_str)
-
-                # exception handling, should never happen
-                if index2 == 99:
-                    print("You shouldn't be here!")
-
-                # checks if player chose same card with both inputs
-                elif index2 == index1:
-                    print("You have to choose 2 different cards to reveal.")
-
-                # checks if list is already revealed on the field
-                elif play.is_revealed(index2):
-                    print("This card is already revealed on the field.")
-
-                # tells the player which card he/she revealed
-                else:
-                    print("You reveal a Card!")
-                    play.show_card(index2)
-                    break
-            else:
-                print("Invalid Input, please try again.")
+        # this time we give the first index number to check
+        # if the player is chosing the same card in the same round
+        index2 = play.get_card(index1)
 
         # checks if both revealed cards are the same
         if play.solution[index1] == play.solution[index2]:
-            print(Fore.GREEN + "\n\nYou managed to permanently reveal a pair!")
+            print(Fore.GREEN + "\nYou managed to permanently reveal a pair!")
             print(Style.RESET_ALL)
 
             # updates the guess list with revealed cards
@@ -329,7 +314,7 @@ def main():
 
         # chosen cards don't match
         else:
-            print(Fore.RED + "\n\nThe two cards don't match...")
+            print(Fore.RED + "\nThe two cards don't match...")
             print(Style.RESET_ALL)
 
             # increases wrong guesses by 1
