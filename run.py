@@ -12,8 +12,8 @@ class MemoryCard:
     """
     def __init__(self, difficulty):
         self.difficulty = difficulty    # difficulty (0=10 cards, 1=20, 2=30)
-        self.score = 0     # keeps track of the score, 10=all cards revealed
-        self.fails = 0     # keeps track of unsuccessful tries
+        self.score = 0     # tracks score, score=target means player wins
+        self.fails = 0     # tracks unsuccessful tries
         self.solution = ["0", "0", "1", "1", "2", "2", "3", "3", "4", "4",
                          "5", "5", "6", "6", "7", "7", "8", "8", "9", "9",
                          "a", "a", "b", "b", "c", "c", "d", "d", "e", "e"]
@@ -88,7 +88,7 @@ class MemoryCard:
 
     def get_card(self, other_index):
         """
-        Get Player Input for showing a Card
+        Get Player Input for showing a Card and return its index
         """
         while True:
             print(Fore.BLUE + "Please chose a Card to reveal in the")
@@ -260,25 +260,28 @@ def main():
     difficulty_int = 0
 
     while True:
-        difficulty = input("Please choose your difficulty (0/1/2): ")
-        # checks if it is exactly 1 character
-        if len(difficulty) == 1:
-            # checks if it is a digit
-            if difficulty.isdigit():
-                try:
+        try:
+            difficulty = input("Please choose your difficulty (0/1/2): ")
+
+            # checks if it is exactly 1 character
+            if len(difficulty) == 1:
+                # checks if it is a digit
+                if difficulty.isdigit():
                     difficulty_int = int(difficulty)
+
                     # checks if it is between 0 and 2
                     if difficulty_int >= 0 and difficulty_int < 3:
                         break
                     else:
                         print("Please enter a value between 0 and 2.")
 
-                except UnicodeError as exception_error:
-                    print(f"The Decoding failed: {exception_error}")
+                else:
+                    print("Please enter a number.")
             else:
-                print("Please enter a number.")
-        else:
-            print("Please enter a correct value.")
+                print("Please enter a correct value.")
+
+        except UnicodeError as exception_error:
+            print(f"The Decoding failed: {exception_error}")
 
     # creates a new instance of MemoryCard, creating the game
     play = MemoryCard(difficulty_int)
