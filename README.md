@@ -69,7 +69,7 @@ Players can try to challenge themselves on different Deck sizes and train their 
 
 ## ([^](#tableofcontents)) <a name="flowchart">Flowchart</a>
 
-- This Flowchart was used for designing the program before any coding was done
+- This Flowchart was used for designing the program before any coding was written.
 <h2><img src="./docs/images/flowchart.jpg" alt="Flowchart of the Program"></h2><br>
 
 
